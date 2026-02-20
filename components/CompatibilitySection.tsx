@@ -128,6 +128,11 @@ const agents: AgentEntry[] = [
     url: "https://uipath.github.io/uipath-python",
     imageSrc: "/logos/uipath.svg",
   },
+  {
+    name: "Augment Code",
+    url: "https://docs.augmentcode.com/cli/overview",
+    imageSrc: "/logos/augment.svg",
+  },
 ];
 
 const shuffleAgents = (items: AgentEntry[]) => {
