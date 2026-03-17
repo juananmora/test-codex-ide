@@ -1,10 +1,11 @@
 import React from "react";
 import CodeExample, { HERO_AGENTS_MD } from "@/components/CodeExample";
 import GitHubIcon from "@/components/icons/GitHubIcon";
+import PageMarkdownActions from "@/components/PageMarkdownActions";
 
 export default function Hero() {
   return (
-    <header className="px-6 py-20 bg-gray-50 dark:bg-gray-900/40 border-b border-gray-100 dark:border-gray-800">
+    <header className="px-6 py-20 bg-[linear-gradient(180deg,#f8f1e6_0%,#f1e4d2_100%)] border-b border-[#e4d5c2] dark:bg-gray-900/40 dark:border-gray-800">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         {/*
           On large screens we want the primary CTA buttons to align with the
@@ -37,7 +38,7 @@ export default function Hero() {
             predictable place to provide the context and instructions to help AI coding agents work on your project.
           </p>
 
-        <div className="mt-6 flex gap-4 flex-col sm:flex-row w-full sm:w-auto justify-center sm:justify-start">
+        <div className="mt-6 flex gap-4 flex-col sm:flex-row sm:flex-wrap w-full sm:w-auto justify-center sm:justify-start">
           {/* Primary CTA — scroll to the Examples section */}
           <a
             href="#examples"
@@ -55,6 +56,7 @@ export default function Hero() {
             <GitHubIcon className="w-4 h-4 text-current" />
             View on GitHub
           </a>
+          <PageMarkdownActions />
         </div>
         </div>
         <div className="w-full md:max-w-none">

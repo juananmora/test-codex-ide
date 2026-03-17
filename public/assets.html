@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Repository Asset Map</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: rgba(255, 252, 247, 0.88);
+        --panel-strong: #fffdf9;
+        --ink: #1b1a18;
+        --muted: #625b50;
+        --line: rgba(81, 63, 42, 0.18);
+        --accent: #d76f38;
+        --accent-soft: rgba(215, 111, 56, 0.16);
+        --accent-2: #3c7a67;
+        --accent-3: #7b5cff;
+        --shadow: 0 24px 80px rgba(64, 44, 25, 0.12);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(215, 111, 56, 0.2), transparent 26%),
+          radial-gradient(circle at top right, rgba(123, 92, 255, 0.14), transparent 24%),
+          linear-gradient(180deg, #fbf6ef 0%, #efe6d7 100%);
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 36px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: calc(var(--radius) + 8px);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 239, 0.95)),
+          linear-gradient(160deg, rgba(215, 111, 56, 0.08), transparent 55%);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -60px -70px auto;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle, rgba(60, 122, 103, 0.2), transparent 68%);
+        pointer-events: none;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        margin-top: 22px;
+        align-items: end;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 5vw, 4.8rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .lead {
+        max-width: 58ch;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+      }
+
+      .metrics {
+        display: grid;
+        gap: 14px;
+      }
+
+      .metric-card {
+        padding: 18px 20px;
+        border: 1px solid rgba(81, 63, 42, 0.12);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .metric-card strong {
+        display: block;
+        font-size: 2rem;
+        letter-spacing: -0.04em;
+      }
+
+      .metric-card span {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .section {
+        margin-top: 28px;
+        padding: 28px;
+        border: 1px solid rgba(81, 63, 42, 0.12);
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .section h2 {
+        margin: 0 0 10px;
+        font-size: 1.6rem;
+        letter-spacing: -0.04em;
+      }
+
+      .section p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .diagram {
+        margin-top: 20px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .diagram-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(210px, 1fr));
+        gap: 18px;
+        min-width: 920px;
+      }
+
+      .node {
+        position: relative;
+        padding: 18px;
+        border-radius: 24px;
+        background: var(--panel-strong);
+        border: 1px solid var(--line);
+        min-height: 168px;
+      }
+
+      .node::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent 40%);
+      }
+
+      .node h3 {
+        margin: 0 0 10px;
+        font-size: 1.05rem;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.73rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+
+      .tag.shell {
+        background: rgba(123, 92, 255, 0.14);
+        color: var(--accent-3);
+      }
+
+      .tag.page {
+        background: rgba(60, 122, 103, 0.14);
+        color: var(--accent-2);
+      }
+
+      .tag.ui {
+        background: rgba(215, 111, 56, 0.14);
+        color: var(--accent);
+      }
+
+      .files {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 0.95rem;
+      }
+
+      .files code {
+        font-family: Consolas, "SFMono-Regular", monospace;
+        font-size: 0.9em;
+        color: var(--ink);
+      }
+
+      .arrow-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin: 18px 0;
+        min-width: 920px;
+      }
+
+      .arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--muted);
+        font-size: 0.92rem;
+        border: 1px dashed rgba(81, 63, 42, 0.22);
+      }
+
+      .arrow::before {
+        content: "->";
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .concepts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .concept {
+        padding: 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--line);
+      }
+
+      .concept h3 {
+        margin: 0 0 10px;
+        font-size: 1rem;
+      }
+
+      .concept p {
+        font-size: 0.95rem;
+      }
+
+      .flow {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .step {
+        position: relative;
+        padding: 18px;
+        border-radius: 22px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 249, 243, 0.8));
+        border: 1px solid var(--line);
+      }
+
+      .step .num {
+        display: inline-flex;
+        width: 34px;
+        height: 34px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--ink);
+        color: white;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .step h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+      }
+
+      .step p {
+        font-size: 0.92rem;
+      }
+
+      .footer-note {
+        margin-top: 22px;
+        padding: 18px 20px;
+        border-radius: 20px;
+        background: rgba(27, 26, 24, 0.92);
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .concepts,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .page {
+          width: min(100% - 20px, 1180px);
+          padding-top: 20px;
+        }
+
+        .hero,
+        .section {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="eyebrow">Repository Map</div>
+        <div class="hero-grid">
+          <div>
+            <h1>How this Next.js project fits together</h1>
+            <p class="lead">
+              This page explains the relationship between the main files in the repository.
+              The app is organized around a simple flow: global app setup wraps the page,
+              the page assembles sections, and those sections pull in styles and static assets
+              to render the final landing experience.
+            </p>
+          </div>
+          <div class="metrics">
+            <div class="metric-card">
+              <strong>4 layers</strong>
+              <span>Config, app shell, page composition, and presentation assets.</span>
+            </div>
+            <div class="metric-card">
+              <strong>1 main page</strong>
+              <span>The site is centered around <code>pages/index.tsx</code>.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>File Relationship Overview</h2>
+        <p>
+          Read the diagram from left to right. Files on the left establish the environment,
+          the center assembles the UI, and the right side provides reusable building blocks
+          and image assets.
+        </p>
+
+        <div class="diagram">
+          <div class="diagram-grid">
+            <article class="node">
+              <div class="tag shell">Project setup</div>
+              <h3>Configuration and dependencies</h3>
+              <ul class="files">
+                <li><code>package.json</code> defines scripts and libraries.</li>
+                <li><code>next.config.ts</code> configures Next.js behavior.</li>
+                <li><code>tsconfig.json</code> sets TypeScript rules and aliases.</li>
+                <li><code>postcss.config.mjs</code> enables Tailwind processing.</li>
+              </ul>
+            </article>
+
+            <article class="node">
+              <div class="tag shell">App shell</div>
+              <h3>Global wrappers</h3>
+              <ul class="files">
+                <li><code>pages/_app.tsx</code> imports global CSS and metadata.</li>
+                <li><code>pages/_document.tsx</code> shapes the outer HTML document.</li>
+                <li><code>styles/globals.css</code> defines fonts, theme tokens, and shared rules.</li>
+              </ul>
+            </article>
+
+            <article class="node">
+              <div class="tag page">Page assembly</div>
+              <h3>Main route</h3>
+              <ul class="files">
+                <li><code>pages/index.tsx</code> builds the landing page.</li>
+                <li>It imports sections like Hero, FAQ, About, and Examples.</li>
+                <li>It also fetches contributor data in <code>getStaticProps</code>.</li>
+              </ul>
+            </article>
+
+            <article class="node">
+              <div class="tag ui">Presentation layer</div>
+              <h3>Components and assets</h3>
+              <ul class="files">
+                <li><code>components/*.tsx</code> render each section and icon.</li>
+                <li><code>public/*</code> stores logos, favicons, and social images.</li>
+                <li>Components reference those assets during render.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="arrow-row">
+            <div class="arrow">configures the runtime and tooling</div>
+            <div class="arrow">wraps and styles every page</div>
+            <div class="arrow">assembles sections from reusable pieces</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Core Concepts</h2>
+        <div class="concepts">
+          <article class="concept">
+            <h3>1. Composition</h3>
+            <p>
+              <code>pages/index.tsx</code> is the orchestrator. It does very little visual work by itself,
+              but it decides which sections appear and in what order, so the page stays modular.
+            </p>
+          </article>
+
+          <article class="concept">
+            <h3>2. Shared foundation</h3>
+            <p>
+              <code>_app.tsx</code>, <code>_document.tsx</code>, and <code>styles/globals.css</code>
+              give the whole application a consistent frame: metadata, icons, fonts, theming, and
+              global behavior live there.
+            </p>
+          </article>
+
+          <article class="concept">
+            <h3>3. Static assets</h3>
+            <p>
+              Files inside <code>public/</code> are not imported as React components. They are served directly
+              by Next.js and referenced by paths like <code>/og.png</code> or <code>/logos/codex.svg</code>.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Runtime Flow</h2>
+        <p>
+          This is the simplest way to think about how the site renders when someone opens the homepage.
+        </p>
+
+        <div class="flow">
+          <article class="step">
+            <div class="num">1</div>
+            <h3>Tooling boots the app</h3>
+            <p>
+              Next.js starts using the scripts and configuration described in
+              <code>package.json</code>, <code>next.config.ts</code>, and related config files.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="num">2</div>
+            <h3>Global wrappers load</h3>
+            <p>
+              <code>pages/_app.tsx</code> brings in global CSS and shared metadata while
+              <code>pages/_document.tsx</code> defines the HTML shell around the app.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="num">3</div>
+            <h3>The home page composes sections</h3>
+            <p>
+              <code>pages/index.tsx</code> gathers contributor data and renders the stack of
+              content sections, each coming from <code>components/</code>.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="num">4</div>
+            <h3>Assets complete the UI</h3>
+            <p>
+              Logos, favicons, and social images from <code>public/</code> are served directly
+              and used by the components and metadata to finish the page.
+            </p>
+          </article>
+        </div>
+
+        <div class="footer-note">
+          In plain terms: the repository is a content site with one main page, many reusable sections,
+          a shared global shell, and a public asset folder that feeds images into the final experience.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
