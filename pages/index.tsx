@@ -16,14 +16,14 @@ interface LandingPageProps {
 
 export default function LandingPage({ contributorsByRepo }: LandingPageProps) {
   return (
-    <div className="flex flex-col min-h-screen items-stretch font-sans">
-      <main>
+    <div className="page-shell flex min-h-screen flex-col items-stretch font-sans">
+      <main className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-4 pb-10 pt-4 sm:px-6 lg:px-8">
         <Hero />
         <WhySection />
         <CompatibilitySection />
         <ExamplesSection contributorsByRepo={contributorsByRepo} />
         <HowToUseSection />
-        <div className="flex-1 flex flex-col gap-4 mt-16">
+        <div className="mt-4 flex flex-1 flex-col gap-6">
           <AboutSection />
           <FAQSection />
         </div>

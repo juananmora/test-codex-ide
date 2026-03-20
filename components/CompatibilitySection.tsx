@@ -165,8 +165,8 @@ function LogoItem({
 }: LogoItemProps) {
   const baseClasses =
     variant === "grid"
-      ? "flex h-full w-full min-w-0 items-center gap-4"
-      : "flex h-20 min-w-[280px] items-center gap-4 pr-10";
+      ? "info-card flex h-full w-full min-w-0 items-center gap-4 px-4 py-4"
+      : "info-card flex h-20 min-w-[280px] items-center gap-4 px-4 py-3";
 
   return (
     <a
@@ -196,7 +196,7 @@ function LogoItem({
         ) : imageSrc ? (
           <span
             aria-hidden
-            className="block h-16 w-16 bg-gray-700 dark:bg-gray-400"
+            className="block h-16 w-16 bg-black/75 dark:bg-white/75"
             style={{
               WebkitMaskImage: `url(${imageSrc})`,
               maskImage: `url(${imageSrc})`,
@@ -211,11 +211,11 @@ function LogoItem({
         ) : null}
       </div>
       <div className="flex flex-col justify-center text-left">
-        <span className="text-xl font-semibold leading-tight text-gray-700 dark:text-gray-300">
+        <span className="text-xl font-semibold leading-tight text-black dark:text-white">
           {name}
         </span>
         {from ? (
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm text-[var(--muted)]">
             <span className="font-light">from</span>{" "}
             <span className="font-semibold">{from}</span>
           </span>
@@ -328,12 +328,12 @@ export default function CompatibilitySection() {
     <Section
       id="compatibility"
       title="One AGENTS.md works across many agents"
-      className={`py-12 px-0 ${showGrid ? "" : "!px-0"}`}
+      className="py-0"
       center
-      maxWidthClass={showGrid ? "max-w-3xl" : "max-w-none"}
+      maxWidthClass="max-w-6xl"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-xl font-light text-gray-500 dark:text-gray-400 px-8">
+        <p className="section-copy px-2">
           Your agent definitions are compatible with a growing ecosystem of AI
           coding agents and tools:
         </p>
@@ -366,7 +366,7 @@ export default function CompatibilitySection() {
         <button
           type="button"
           onClick={() => setShowGrid((prev) => !prev)}
-          className="mt-4 text-base font-medium underline hover:no-underline cursor-pointer"
+          className="button-ghost mt-2 cursor-pointer !text-sm"
           aria-controls="supported-agents"
           aria-expanded={showGrid}
         >

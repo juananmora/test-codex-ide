@@ -112,7 +112,7 @@ function renderLineWithInlineCode(line: string): React.ReactNode {
       return (
         <span
           key={index}
-          className="bg-orange-100 text-orange-900 dark:bg-orange-900/40 dark:text-orange-100 px-1 rounded"
+          className="rounded bg-black/6 px-1.5 py-0.5 text-black dark:bg-white/12 dark:text-white"
         >
           {part}
         </span>
@@ -151,7 +151,7 @@ export default function CodeExample({
       <div className="relative">
         <button
           onClick={copyToClipboard}
-          className={`absolute right-3 p-2 rounded-md bg-transparent text-gray-800 dark:text-gray-200 hover:bg-[#ede0cc] dark:hover:bg-gray-800 transition-colors z-10 cursor-pointer ${
+          className={`absolute right-3 z-10 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--muted)] transition-colors hover:bg-[var(--surface-subtle)] cursor-pointer ${
             centerVertically ? "top-1/2 -translate-y-1/2" : "top-3"
           }`}
           aria-label="Copy to clipboard"
@@ -175,7 +175,7 @@ export default function CodeExample({
           )}
         </button>
         <pre
-          className={`relative rounded-lg bg-[#fbf4ea] dark:bg-black text-gray-800 dark:text-gray-100 text-xs leading-6 overflow-x-auto p-4 ${
+          className={`code-surface relative overflow-x-auto p-5 text-xs leading-6 text-black dark:text-white ${
             centerVertically ? "flex items-center" : ""
           } ${
             heightClass
@@ -183,7 +183,7 @@ export default function CodeExample({
               : compact
               ? ""
               : "min-h-[250px] max-h-[500px]"
-          } border border-[#e5d7c5] dark:border-gray-700 shadow-sm`}
+          }`}
         >
           <code>
             {parseMarkdown(md)}
@@ -198,9 +198,9 @@ export default function CodeExample({
   }
 
   return (
-    <section className="px-6 pt-10 pb-24 bg-[#f3e8d8] dark:bg-gray-900/40">
-      <div className="max-w-5xl mx-auto flex flex-col gap-6">
-        <h2 className="text-3xl font-semibold tracking-tight">
+    <section className="px-6 pt-10 pb-24">
+      <div className="section-surface mx-auto flex max-w-5xl flex-col gap-6 px-6 py-8 sm:px-8">
+        <h2 className="section-heading">
           AGENTS.md in action
         </h2>
         {content}

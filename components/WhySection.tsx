@@ -9,11 +9,11 @@ export default function WhySection() {
     <Section
       id="why"
       title="Why AGENTS.md?"
-      className="pt-24 pb-12"
+      className="pt-2"
       center
-      maxWidthClass="max-w-3xl"
+      maxWidthClass="max-w-5xl"
     >
-      <div className="space-y-4">
+      <div className="mx-auto max-w-3xl space-y-4 text-center section-copy">
         <p className="mb-4">
           README.md files are for humans: quick starts, project descriptions,
           and contribution guidelines.
@@ -24,8 +24,8 @@ export default function WhySection() {
           might clutter a README or aren&rsquo;t relevant to human contributors.
         </p>
         <p className="mb-4">We intentionally kept it separate to:</p>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-3">
+          <div className="info-card flex items-start gap-3 p-5">
             <ClipboardIcon />
             <p>
               <span className="font-semibold block">
@@ -34,7 +34,7 @@ export default function WhySection() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="info-card flex items-start gap-3 p-5">
             <UserIcon />
             <p>
               <span className="font-semibold block">
@@ -43,7 +43,7 @@ export default function WhySection() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="info-card flex items-start gap-3 p-5">
             <LinkIcon />
             <p>
               <span className="font-semibold block">
@@ -53,7 +53,7 @@ export default function WhySection() {
             </p>
           </div>
         </div>
-        <p>
+        <p className="pt-2">
           Rather than introducing another proprietary file, we chose a name and
           format that could work for anyone. If you&rsquo;re building or using
           coding agents and find this helpful, feel free to adopt it.

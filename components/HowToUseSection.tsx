@@ -45,17 +45,24 @@ export default function HowToUseSection() {
   return (
     <Section
       title="How to use AGENTS.md?"
-      className="py-12"
+      className="py-0"
       center
-      maxWidthClass="max-w-3xl"
+      maxWidthClass="max-w-5xl"
     >
-      <div className="space-y-6 text-left">
+      <div className="mx-auto max-w-3xl text-center section-copy">
+        Start with one file at the repo root, then add more specific files only
+        where the codebase really benefits from local instructions.
+      </div>
+      <div className="grid gap-4 text-left md:grid-cols-2">
         {steps.map((s, idx) => (
-          <div key={idx}>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          <div key={idx} className="step-card p-5">
+            <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-subtle)] text-sm font-semibold">
+              {idx + 1}
+            </div>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
               {idx + 1}. {s.title}
             </h3>
-            <div className="text-gray-700 dark:text-gray-300">
+            <div className="text-[var(--muted)]">
               {s.body}
             </div>
           </div>

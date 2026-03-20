@@ -74,7 +74,7 @@ const InnerGrid = ({
     <div className="flex justify-center mt-6">
       <a
         href="https://github.com/search?q=path%3AAGENTS.md+NOT+is%3Afork+NOT+is%3Aarchived&type=code"
-        className="text-base font-medium underline hover:no-underline"
+        className="button-ghost !text-sm"
       >
         View 60k+ examples on GitHub
       </a>
@@ -97,7 +97,7 @@ const ExampleListSection = ({
   return (
     <section className="px-6 pb-12 -mt-36">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-semibold mb-6">Who uses AGENTS.md?</h2>
+        <h2 className="section-heading mb-6">Who uses AGENTS.md?</h2>
         <InnerGrid contributorsByRepo={contributorsByRepo} />
       </div>
     </section>
@@ -129,7 +129,7 @@ function ExampleCard({
       href={`https://github.com/${repo.name}/blob/-/AGENTS.md`}
       target="_blank"
       rel="noopener noreferrer"
-      className={`lg:aspect-video bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex flex-col justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
+      className={`info-card lg:aspect-video flex flex-col justify-between p-5 transition-colors hover:bg-[var(--surface-subtle)] ${
         hideOnSmall
           ? "hidden lg:flex"
           : hideOnMedium
@@ -144,7 +144,7 @@ function ExampleCard({
         >
           {repo.name}
         </h3>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-[var(--muted)]">
           {repo.description}
         </p>
       </div>
@@ -165,18 +165,18 @@ function ExampleCard({
                     key={i}
                     src={url}
                     alt="Contributor avatar"
-                    className="w-6 h-6 rounded-full ring-2 ring-white dark:ring-gray-900 object-cover block shrink-0"
+                    className="block h-6 w-6 shrink-0 rounded-full object-cover ring-2 ring-white dark:ring-black"
                   />
                 ))
               : Array.from({ length: 3 }).map((_, i) => (
                   <span
                     key={i}
                     aria-hidden
-                    className="w-6 h-6 rounded-full bg-gray-300 dark:bg-gray-700 ring-2 ring-white dark:ring-gray-900 block shrink-0"
+                    className="block h-6 w-6 shrink-0 rounded-full bg-gray-300 ring-2 ring-white dark:bg-gray-700 dark:ring-black"
                   />
                 ))}
           </div>
-          <span className="ml-2 text-xs font-semibold px-2 py-0.5 rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 translate-y-[1px]">
+          <span className="ml-2 translate-y-[1px] rounded-full bg-[var(--surface-subtle)] px-2 py-0.5 text-xs font-semibold text-[var(--muted)]">
             + {totalContributors}
           </span>
         </div>

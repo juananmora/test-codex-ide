@@ -26,16 +26,15 @@ export default function Section({
   const containerClasses = `${maxWidthClass} mx-auto flex flex-col gap-6`;
 
   return (
-    <section id={id} className={className + " px-6"}>
-      <div className={containerClasses}>
-        <h2
-          className={`text-3xl font-semibold tracking-tight ${center ? "mx-auto text-center" : ""}`}
-        >
-          {title}
-        </h2>
-        {/* prose class is useful for markdown-like content. For centered sections we don't want automatic left
-            margin on headings, so we keep it unconditionally; centering is handled by parent flex alignment. */}
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
+    <section id={id} className={className}>
+      <div className={`${containerClasses} section-surface px-6 py-8 sm:px-8 sm:py-10 lg:px-10`}>
+        <div className={`flex flex-col gap-3 ${center ? "items-center text-center" : ""}`}>
+          <span className="eyebrow">{title}</span>
+          <h2 className={`section-heading max-w-4xl ${center ? "mx-auto text-center" : ""}`}>
+            {title}
+          </h2>
+        </div>
+        <div className="prose prose-neutral max-w-none dark:prose-invert">
           {children}
         </div>
       </div>

@@ -92,17 +92,21 @@ export default function FAQ() {
     <Section
       id="faq"
       title="FAQ"
-      className="py-20"
+      className="py-0"
       center
-      maxWidthClass="max-w-3xl"
+      maxWidthClass="max-w-5xl"
     >
-      <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="mx-auto max-w-3xl text-center section-copy">
+        Short answers to the implementation details teams usually ask about
+        first.
+      </div>
+      <div className="mx-auto grid max-w-4xl gap-4">
         {faqItems.map((item, index) => (
-          <div key={index}>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          <div key={index} className="faq-card p-5 text-left">
+            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
               {item.question}
             </h3>
-            <div className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            <div className="leading-relaxed text-[var(--muted)]">
               {item.answer}
             </div>
           </div>
