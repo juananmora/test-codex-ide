@@ -9,7 +9,7 @@ Return concise answers with links or exact references when available.
 Do not make code changes.
 """
 
-nickname_candidates = ["Alonso"]
+nickname_candidates = ["Hernan"]
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
