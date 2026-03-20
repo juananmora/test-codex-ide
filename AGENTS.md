@@ -1,43 +1,28 @@
-# AGENTS Guidelines for This Repository
+# Repository Guidelines
 
-This repository contains a Next.js application located in the root of this repository. When
-working on the project interactively with an agent (e.g. the Codex CLI) please follow
-the guidelines below so that the development experience – in particular Hot Module
-Replacement (HMR) – continues to work smoothly.
+## Project Structure & Module Organization
+This repository is a small Next.js site in the repo root. Route entry points live in `pages/` (`pages/index.tsx`, `pages/_app.tsx`, `pages/_document.tsx`). Reusable UI is in `components/`, with icons under `components/icons/`. Global styling lives in `styles/globals.css`. Static assets and logos are served from `public/`. Lightweight source-based checks live in `tests/components.test.mjs`. Keep content updates aligned across visible UI and supporting files such as `components/landingPageMarkdown.ts` or `public/assets.html` when applicable.
 
-## 1. Use the Development Server, **not** `npm run build`
+## Build, Test, and Development Commands
+Use the dev server during agent or local iteration:
 
-* **Always use `npm run dev` (or `pnpm dev`, `yarn dev`, etc.)** while iterating on the
-  application.  This starts Next.js in development mode with hot-reload enabled.
-* **Do _not_ run `npm run build` inside the agent session.**  Running the production
-  build command switches the `.next` folder to production assets which disables hot
-  reload and can leave the development server in an inconsistent state.  If a
-  production build is required, do it outside of the interactive agent workflow.
+- `npm run dev`: starts Next.js with hot reload on `http://localhost:3000`
+- `npm run lint`: runs the project lint checks through Next.js
+- `node tests/components.test.mjs`: runs the current component regression checks
+- `npm run start`: serves a production build, only after a separate build outside the interactive workflow
 
-## 2. Keep Dependencies in Sync
+Do not run `npm run build` inside an interactive agent session; it can leave `.next/` in a production state and break HMR.
 
-If you add or update dependencies remember to:
+## Coding Style & Naming Conventions
+Prefer TypeScript React components (`.tsx`) and keep components focused and composable. Match the existing style: 2-space indentation, double quotes, semicolons, and named imports grouped at the top. Use PascalCase for components (`Hero.tsx`), camelCase for variables/functions, and descriptive constant names (`HERO_AGENTS_MD`). Co-locate component-specific logic with the component unless it clearly belongs in `pages/` or `styles/`.
 
-1. Update the appropriate lockfile (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`).
-2. Re-start the development server so that Next.js picks up the changes.
+## Testing Guidelines
+Current tests use a simple Node-based assertion file rather than a full test framework. Add targeted checks to `tests/components.test.mjs` when changing landing-page copy, CTA labels, links, or theme classes. Favor stable string and pattern assertions over fragile implementation details. Run `npm run lint` and `node tests/components.test.mjs` before opening a PR.
 
-## 3. Coding Conventions
+## Commit & Pull Request Guidelines
+Recent commits use short, imperative subjects such as `Add unit tests for Hero, Footer, and CodeExample components` and `Update configuration files for improved development experience`. Follow that pattern: one clear action per commit, capitalized subject, no trailing period.
 
-* Prefer TypeScript (`.tsx`/`.ts`) for new components and utilities.
-* Co-locate component-specific styles in the same folder as the component when
-  practical.
+PRs should include a concise description, note any user-visible changes, and link related issues when available. Include screenshots for visual updates and list the validation you ran (`npm run lint`, `node tests/components.test.mjs`).
 
-## 4. Useful Commands Recap
-
-| Command            | Purpose                                            |
-| ------------------ | -------------------------------------------------- |
-| `npm run dev`      | Start the Next.js dev server with HMR.             |
-| `npm run lint`     | Run ESLint checks.                                 |
-| `npm run test`     | Execute the test suite (if present).               |
-| `npm run build`    | **Production build – _do not run during agent sessions_** |
-
----
-
-Following these practices ensures that the agent-assisted development workflow stays
-fast and dependable.  When in doubt, restart the dev server rather than running the
-production build.
+## Configuration & Content Notes
+If you add or update dependencies, update the lockfile you touched and restart the dev server. When editing content that is mirrored in markdown exports or static assets, verify all copies stay in sync.
