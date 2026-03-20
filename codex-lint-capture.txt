@@ -1,0 +1,5 @@
+
+> agents.md@0.1.0 lint
+> next lint
+
+Invalid project directory provided, no such directory: C:\02 - Accenture\03 - Repositorios\test-codex-cli\test-codex-cli\lint
