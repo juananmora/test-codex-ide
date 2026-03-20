@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Asset Relationships</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: rgba(255, 251, 245, 0.88);
+        --panel-strong: #fffdf8;
+        --ink: #1f1d1a;
+        --muted: #655d55;
+        --line: rgba(58, 47, 35, 0.12);
+        --accent: #0f766e;
+        --accent-2: #c2410c;
+        --accent-3: #1d4ed8;
+        --glow: rgba(15, 118, 110, 0.14);
+        --shadow: 0 24px 60px rgba(52, 42, 31, 0.12);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(29, 78, 216, 0.16), transparent 28%),
+          radial-gradient(circle at top right, rgba(194, 65, 12, 0.14), transparent 24%),
+          linear-gradient(180deg, #f8f2e8 0%, #efe7db 54%, #e8dfd2 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(31, 29, 26, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(31, 29, 26, 0.03) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 56px;
+      }
+
+      .hero,
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 36px;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        right: -80px;
+        top: -90px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(15, 118, 110, 0.24), transparent 66%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(58, 47, 35, 0.08);
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin-top: 18px;
+        font-size: clamp(2.8rem, 5vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .subtitle {
+        max-width: 62ch;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .metric {
+        padding: 18px 18px 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(58, 47, 35, 0.08);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.65rem;
+        letter-spacing: -0.04em;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .panel {
+        padding: 28px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 22px;
+      }
+
+      .section-head p {
+        max-width: 60ch;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .diagram-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        align-items: start;
+      }
+
+      .lane {
+        position: relative;
+        min-height: 100%;
+      }
+
+      .lane::before {
+        content: "";
+        position: absolute;
+        left: 16px;
+        top: 44px;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(180deg, rgba(29, 78, 216, 0.28), rgba(29, 78, 216, 0.02));
+      }
+
+      .lane-title {
+        display: inline-block;
+        margin-bottom: 14px;
+        padding-left: 28px;
+        font-size: 0.88rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .node {
+        position: relative;
+        margin: 0 0 14px 28px;
+        padding: 18px;
+        border-radius: 22px;
+        background: var(--panel-strong);
+        border: 1px solid rgba(58, 47, 35, 0.08);
+        box-shadow: 0 14px 30px rgba(49, 37, 23, 0.08);
+      }
+
+      .node::before {
+        content: "";
+        position: absolute;
+        left: -18px;
+        top: 26px;
+        width: 18px;
+        height: 2px;
+        background: rgba(29, 78, 216, 0.22);
+      }
+
+      .node code,
+      .mini-card code {
+        font-size: 0.92rem;
+        font-family: "Consolas", "SFMono-Regular", monospace;
+        color: #0f172a;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      .tag.shell {
+        background: var(--accent-3);
+      }
+
+      .tag.page {
+        background: var(--accent);
+      }
+
+      .tag.component {
+        background: var(--accent-2);
+      }
+
+      .tag.asset {
+        background: #7c3aed;
+      }
+
+      .node p {
+        margin-top: 10px;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.95rem;
+      }
+
+      .concepts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .concept {
+        padding: 20px;
+        border-radius: 22px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 244, 237, 0.94));
+        border: 1px solid rgba(58, 47, 35, 0.08);
+      }
+
+      .concept h3 {
+        font-size: 1.05rem;
+        margin-bottom: 10px;
+      }
+
+      .concept p {
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .relationship-board {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 18px;
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .mini-card {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(58, 47, 35, 0.08);
+      }
+
+      .mini-card h3 {
+        margin-bottom: 10px;
+        font-size: 1rem;
+      }
+
+      .mini-card p {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .flow {
+        display: grid;
+        gap: 12px;
+      }
+
+      .flow-step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(58, 47, 35, 0.08);
+      }
+
+      .flow-step strong {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #111827;
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      .flow-step p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .footer-note {
+        margin-top: 14px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.95rem;
+      }
+
+      .accent-text {
+        color: var(--accent);
+      }
+
+      .warm-text {
+        color: var(--accent-2);
+      }
+
+      @media (max-width: 960px) {
+        .hero-metrics,
+        .diagram-grid,
+        .concepts,
+        .relationship-board,
+        .mini-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          flex-direction: column;
+          align-items: start;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .page {
+          width: min(100% - 20px, 100%);
+          padding: 18px 0 32px;
+        }
+
+        .hero,
+        .panel {
+          padding: 22px;
+          border-radius: 24px;
+        }
+
+        h1 {
+          font-size: 2.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="eyebrow">File Map • Next.js Site • Real Project Structure</div>
+        <h1>How these files fit together.</h1>
+        <p class="subtitle">
+          This page explains the relationship between the main files in this repository.
+          Think of it as a visual guide to the app's assembly line: configuration sets the rules,
+          the Next.js shell boots the app, the page composes sections, components render UI, and
+          assets in <span class="accent-text">public/</span> plus styles in
+          <span class="warm-text">styles/</span> finish the experience.
+        </p>
+        <div class="hero-metrics">
+          <div class="metric">
+            <strong>3</strong>
+            <span>main framework entry points</span>
+          </div>
+          <div class="metric">
+            <strong>10+</strong>
+            <span>shared components used to build the landing page</span>
+          </div>
+          <div class="metric">
+            <strong>1 flow</strong>
+            <span>config → shell → page → components → assets</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel stack">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Relationship Diagram</div>
+            <h2>Dependency flow across the project</h2>
+          </div>
+          <p>
+            The repo is mostly centered around a single landing page. The important relationship is
+            not just folder ownership, but who depends on whom at runtime.
+          </p>
+        </div>
+
+        <div class="diagram-grid">
+          <div class="lane">
+            <div class="lane-title">Configuration</div>
+            <article class="node">
+              <span class="tag shell">Config</span>
+              <code>package.json</code>
+              <p>Defines scripts and dependencies like Next.js, React, Tailwind, and Vercel Analytics.</p>
+            </article>
+            <article class="node">
+              <span class="tag shell">Config</span>
+              <code>next.config.ts</code>
+              <p>Controls Next.js behavior and influences how the app is built and served.</p>
+            </article>
+            <article class="node">
+              <span class="tag shell">Config</span>
+              <code>tsconfig.json</code>
+              <p>Enables TypeScript rules and path aliases like <code>@/components</code>.</p>
+            </article>
+          </div>
+
+          <div class="lane">
+            <div class="lane-title">App Shell</div>
+            <article class="node">
+              <span class="tag page">Bootstrap</span>
+              <code>pages/_app.tsx</code>
+              <p>Loads <code>styles/globals.css</code>, sets metadata in <code>&lt;Head&gt;</code>, and wraps every page with Analytics.</p>
+            </article>
+            <article class="node">
+              <span class="tag page">Document</span>
+              <code>pages/_document.tsx</code>
+              <p>Defines the outer HTML document and wires favicon files from <code>public/</code>.</p>
+            </article>
+          </div>
+
+          <div class="lane">
+            <div class="lane-title">Page Composition</div>
+            <article class="node">
+              <span class="tag page">Route</span>
+              <code>pages/index.tsx</code>
+              <p>Builds the landing page by importing sections such as Hero, Examples, FAQ, and Footer.</p>
+            </article>
+            <article class="node">
+              <span class="tag page">Data</span>
+              <code>getStaticProps()</code>
+              <p>Fetches contributor data from GitHub and passes it into <code>ExamplesSection</code> during static generation.</p>
+            </article>
+          </div>
+
+          <div class="lane">
+            <div class="lane-title">UI Building Blocks</div>
+            <article class="node">
+              <span class="tag component">Sections</span>
+              <code>components/Hero.tsx</code><br />
+              <code>components/WhySection.tsx</code><br />
+              <code>components/ExamplesSection.tsx</code>
+              <p>Page-level visual modules imported directly by <code>pages/index.tsx</code>.</p>
+            </article>
+            <article class="node">
+              <span class="tag component">Shared Pieces</span>
+              <code>components/Section.tsx</code><br />
+              <code>components/CodeExample.tsx</code><br />
+              <code>components/icons/*.tsx</code>
+              <p>Reusable units that section components depend on to avoid duplicating layout and icon logic.</p>
+            </article>
+            <article class="node">
+              <span class="tag asset">Assets</span>
+              <code>styles/globals.css</code><br />
+              <code>public/favicon-*.png</code><br />
+              <code>public/logos/*.svg</code>
+              <p>Static resources consumed by both the shell and the UI components.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel stack">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Core Concepts</div>
+            <h2>What each relationship means</h2>
+          </div>
+          <p>
+            These relationships are easier to reason about when grouped by responsibility instead of
+            by folder name alone.
+          </p>
+        </div>
+
+        <div class="concepts">
+          <article class="concept">
+            <h3>1. Entry points define the frame</h3>
+            <p>
+              <code>pages/_app.tsx</code> and <code>pages/_document.tsx</code> are not normal UI sections.
+              They control the app wrapper and base document, so other files sit inside their structure.
+            </p>
+          </article>
+          <article class="concept">
+            <h3>2. The page file is the orchestrator</h3>
+            <p>
+              <code>pages/index.tsx</code> does not render everything by hand. It imports focused
+              components and assembles them in order, which keeps the route readable.
+            </p>
+          </article>
+          <article class="concept">
+            <h3>3. Components depend downward</h3>
+            <p>
+              Higher-level sections like <code>ExamplesSection</code> depend on smaller pieces such as
+              <code>Section</code>, <code>CodeExample</code>, and icon components. The dependency direction
+              moves from broad layout to small reusable pieces.
+            </p>
+          </article>
+          <article class="concept">
+            <h3>4. Styles are cross-cutting</h3>
+            <p>
+              <code>styles/globals.css</code> is imported once in <code>pages/_app.tsx</code>, but its rules
+              affect every page and component. That makes it a shared layer, not a local dependency.
+            </p>
+          </article>
+          <article class="concept">
+            <h3>5. Public files are referenced, not imported</h3>
+            <p>
+              Files in <code>public/</code> are served statically. Components and document metadata refer to
+              them by URL, such as <code>/favicon-light.png</code> or logo paths.
+            </p>
+          </article>
+          <article class="concept">
+            <h3>6. Data can join the graph too</h3>
+            <p>
+              The relationship is not only visual. In <code>pages/index.tsx</code>, data fetched in
+              <code>getStaticProps()</code> flows into <code>ExamplesSection</code> and then into the repo card list.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel stack">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Concrete Examples</div>
+            <h2>Actual file-to-file links in this repository</h2>
+          </div>
+          <p>
+            These are specific relationships confirmed from the current codebase, not placeholders.
+          </p>
+        </div>
+
+        <div class="relationship-board">
+          <div class="mini-grid">
+            <article class="mini-card">
+              <h3><code>pages/_app.tsx → styles/globals.css</code></h3>
+              <p>The global stylesheet is imported once at the application level so every page shares the same base typography, theme variables, and utility behavior.</p>
+            </article>
+            <article class="mini-card">
+              <h3><code>pages/_document.tsx → public/favicon-*.png</code></h3>
+              <p>The custom document links the light and dark favicons. That makes the HTML document aware of static assets from <code>public/</code>.</p>
+            </article>
+            <article class="mini-card">
+              <h3><code>pages/index.tsx → components/*</code></h3>
+              <p>The landing page imports <code>Hero</code>, <code>WhySection</code>, <code>CompatibilitySection</code>, <code>ExamplesSection</code>, and more to compose the route.</p>
+            </article>
+            <article class="mini-card">
+              <h3><code>components/ExamplesSection.tsx → ExampleListSection</code></h3>
+              <p>The examples area is layered. A higher-level section wraps layout and then delegates repo cards to a more focused list component.</p>
+            </article>
+          </div>
+
+          <div class="flow">
+            <article class="flow-step">
+              <strong>1</strong>
+              <p><code>package.json</code> starts the Next.js runtime and loads React dependencies.</p>
+            </article>
+            <article class="flow-step">
+              <strong>2</strong>
+              <p><code>pages/_app.tsx</code> provides the app-wide frame, CSS, metadata, and analytics.</p>
+            </article>
+            <article class="flow-step">
+              <strong>3</strong>
+              <p><code>pages/index.tsx</code> chooses which sections appear and in what order.</p>
+            </article>
+            <article class="flow-step">
+              <strong>4</strong>
+              <p>Section components pull in shared helpers, icons, and child components to render the screen.</p>
+            </article>
+            <article class="flow-step">
+              <strong>5</strong>
+              <p>Static assets and global CSS supply branding, images, favicons, and final polish.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        This file is intentionally standalone, so it can be opened directly in a browser as a visual explanation of the project structure.
+      </p>
+    </main>
+  </body>
+</html>
