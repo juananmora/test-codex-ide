@@ -7,11 +7,11 @@ Track the active branch-vs-main review for `test-codex-cli` in the current works
 ## Status Summary
 
 - Overall status: `DONE`
-- Current phase: `Review synthesis completed`
-- Active run: [2026-03-20_12-55-06_review-main.md](./plans/2026-03-20_12-55-06_review-main.md)
+- Current phase: `Findings synthesized`
+- Active run: [2026-03-20_13-10-00_review-main.md](./plans/2026-03-20_13-10-00_review-main.md)
 
 ## Latest Run
 
 - Comparison target: `main`
-- Planner-first workflow was executed, then `pr_explorer`, `reviewer`, and `docs_researcher` completed their review lanes.
-- Final result: two confirmed branch-level workflow/config regressions, one low-confidence config risk, and no confirmed framework/API mismatch for the reported findings.
+- Final findings are persisted for a broken browser debugger MCP URL, stale markdown export/download payloads, the invalid `next lint` script on `next@16.1.0`, and a weakened footer regression test.
+- The prior run remains archived in `docs/plans/2026-03-20_12-55-06_review-main.md`.
