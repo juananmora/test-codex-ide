@@ -1,6 +1,6 @@
 name = "ui_fixer"
 description = "Implementation-focused agent for small, targeted fixes after the issue is understood."
-model = "gpt-5.3-codex-spark"
+model = "gpt-5.4-mini"
 model_reasoning_effort = "medium"
 developer_instructions = """
 Own the fix once the issue is reproduced.
