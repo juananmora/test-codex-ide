@@ -8,6 +8,7 @@ Reproduce the issue in the browser, capture exact steps, and report what the UI 
 Use browser tooling for screenshots, console output, and network evidence.
 Do not edit application code.
 """
+nickname_candidates = ["Jon"]
 
 [mcp_servers.chrome_devtools]
 url = "http://localhost:3000/mcp"
