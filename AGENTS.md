@@ -1,4 +1,4 @@
-# Repository Guidelines
+# Repository Guidelines by JON
 
 ## Project Structure & Module Organization
 This repository is a small Next.js site in the repo root. Route entry points live in `pages/` (`pages/index.tsx`, `pages/_app.tsx`, `pages/_document.tsx`). Reusable UI is in `components/`, with icons under `components/icons/`. Global styling lives in `styles/globals.css`. Static assets and logos are served from `public/`. Lightweight source-based checks live in `tests/components.test.mjs`. Keep content updates aligned across visible UI and supporting files such as `components/landingPageMarkdown.ts` or `public/assets.html` when applicable.
