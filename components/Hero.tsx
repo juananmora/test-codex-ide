@@ -1,58 +1,11 @@
 import React from "react";
 import CodeExample, { HERO_AGENTS_MD } from "@/components/CodeExample";
 import GitHubIcon from "@/components/icons/GitHubIcon";
-import CopyIcon from "@/components/icons/CopyIcon";
-
-const PAGE_MARKDOWN = `# AGENTS.md
-
-A simple, open format for guiding coding agents, used by over 60k open-source projects.
-
-## What it is
-
-Think of AGENTS.md as a README for agents: a dedicated, predictable place to provide the context and instructions to help AI coding agents work on your project.
-
-## Main Sections
-
-- Why AGENTS.md matters
-- Compatibility across tools and editors
-- Example repositories using AGENTS.md
-- How to use AGENTS.md in practice
-- About the format
-- Frequently asked questions
-
-## Explore More
-
-- Examples: https://github.com/search?q=path%3AAGENTS.md+NOT+is%3Afork+NOT+is%3Aarchived&type=code
-- Project repository: https://github.com/agentsmd/agents.md
-`;
+import PageMarkdownActions from "@/components/PageMarkdownActions";
 
 export default function Hero() {
-  const [copied, setCopied] = React.useState(false);
-
-  const copyMarkdown = async () => {
-    try {
-      await navigator.clipboard.writeText(PAGE_MARKDOWN);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error("Failed to copy markdown:", error);
-    }
-  };
-
-  const downloadMarkdown = () => {
-    const blob = new Blob([PAGE_MARKDOWN], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "agents-page.md";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <header className="px-6 py-20 bg-gray-50 dark:bg-gray-900/40 border-b border-gray-100 dark:border-gray-800">
+    <header className="px-6 py-20 bg-[linear-gradient(180deg,#f8f1e6_0%,#f1e4d2_100%)] border-b border-[#e4d5c2] dark:bg-gray-900/40 dark:border-gray-800">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         {/*
           On large screens we want the primary CTA buttons to align with the
@@ -103,33 +56,7 @@ export default function Hero() {
             <GitHubIcon className="w-4 h-4 text-current" />
             View on GitHub
           </a>
-          <button
-            type="button"
-            onClick={downloadMarkdown}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-          >
-            <svg
-              className="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v11" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="m7 11 5 5 5-5" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 21h14" />
-            </svg>
-            Download Markdown
-          </button>
-          <button
-            type="button"
-            onClick={copyMarkdown}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-          >
-            <CopyIcon className="w-4 h-4 text-current" />
-            {copied ? "Copied" : "Copy as Markdown"}
-          </button>
+          <PageMarkdownActions />
         </div>
         </div>
         <div className="w-full md:max-w-none">

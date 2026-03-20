@@ -151,7 +151,7 @@ export default function CodeExample({
       <div className="relative">
         <button
           onClick={copyToClipboard}
-          className={`absolute right-3 p-2 rounded-md bg-transparent text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10 cursor-pointer ${
+          className={`absolute right-3 p-2 rounded-md bg-transparent text-gray-800 dark:text-gray-200 hover:bg-[#ede0cc] dark:hover:bg-gray-800 transition-colors z-10 cursor-pointer ${
             centerVertically ? "top-1/2 -translate-y-1/2" : "top-3"
           }`}
           aria-label="Copy to clipboard"
@@ -175,7 +175,7 @@ export default function CodeExample({
           )}
         </button>
         <pre
-          className={`relative rounded-lg bg-white dark:bg-black text-gray-800 dark:text-gray-100 text-xs leading-6 overflow-x-auto p-4 ${
+          className={`relative rounded-lg bg-[#fbf4ea] dark:bg-black text-gray-800 dark:text-gray-100 text-xs leading-6 overflow-x-auto p-4 ${
             centerVertically ? "flex items-center" : ""
           } ${
             heightClass
@@ -183,7 +183,7 @@ export default function CodeExample({
               : compact
               ? ""
               : "min-h-[250px] max-h-[500px]"
-          } border border-gray-200 dark:border-gray-700 shadow-sm`}
+          } border border-[#e5d7c5] dark:border-gray-700 shadow-sm`}
         >
           <code>
             {parseMarkdown(md)}
@@ -198,7 +198,7 @@ export default function CodeExample({
   }
 
   return (
-    <section className="px-6 pt-10 pb-24 bg-gray-50 dark:bg-gray-900/40">
+    <section className="px-6 pt-10 pb-24 bg-[#f3e8d8] dark:bg-gray-900/40">
       <div className="max-w-5xl mx-auto flex flex-col gap-6">
         <h2 className="text-3xl font-semibold tracking-tight">
           AGENTS.md in action

@@ -73,7 +73,9 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #f5efe3;
+  --surface: #faf4ea;
+  --surface-strong: #efe2cf;
   --foreground: #171717;
   --font-sans: 'OpenAI Sans', Arial, Helvetica, sans-serif;
 }
@@ -87,13 +89,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #efe4d2;
+    --surface: #f5ebdc;
+    --surface-strong: #e5d2b9;
+    --foreground: #171717;
   }
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.28), transparent 42%),
+    linear-gradient(180deg, var(--surface) 0%, var(--background) 55%, var(--surface-strong) 100%);
   color: var(--foreground);
   font-family: var(--font-sans);
 }
